@@ -6,7 +6,7 @@ A full-stack B2B Order Management Platform developed for the Arrowstack Full Sta
 ## Technology Stack
 - **Backend:** Java, Spring Boot, Spring Security, Spring Data JPA
 - **Frontend:** Angular (Standalone), TypeScript, HTML5, CSS3
-- **Database:** Relational Database (MySQL / PostgreSQL)
+- **Database:** MariaDB
 - **API Testing:** Postman
 
 ## Architecture Decisions
