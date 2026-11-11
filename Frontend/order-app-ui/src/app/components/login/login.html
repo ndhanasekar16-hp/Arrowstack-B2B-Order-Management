@@ -1,0 +1,39 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2>B2B Order Management</h2>
+    <p></p>
+
+    
+    
+    <div *ngIf="errorMessage" class="error-banner">
+      {{ errorMessage }}
+    </div>
+
+    <form (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <label for="username">User Name</label>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          [(ngModel)]="username" 
+          required 
+          placeholder="Enter username">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          [(ngModel)]="password" 
+          required 
+          placeholder="Enter password">
+      </div>
+
+      <button type="submit" class="btn-login">Login</button>
+    </form>
+  </div>
+</div>
+

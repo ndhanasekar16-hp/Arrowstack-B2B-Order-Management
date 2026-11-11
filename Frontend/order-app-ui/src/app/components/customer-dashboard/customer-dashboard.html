@@ -1,0 +1,121 @@
+<div class="dashboard-container">
+  <header class="header">
+    <h2>Customer Portal - Order Management</h2>
+    <button (click)="logout()" class="btn-logout">Logout</button>
+  </header>
+
+  <!-- Alert Messages -->
+  <div *ngIf="successMessage" class="alert-success">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="alert-error">{{ errorMessage }}</div>
+
+  <!-- Row 1: Product Catalog & Shopping Cart -->
+  <div class="main-grid">
+    <!-- Left Section: Product Catalog -->
+    <div class="card">
+      <h3>Available Products</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Available Stock</th>
+            <th>Qty</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let prod of products">
+            <td>
+              <strong>{{ prod.productName }}</strong>
+              <div class="desc">{{ prod.description }}</div>
+            </td>
+            <td>₹{{ prod.price }}</td>
+            <td>{{ prod.stockQuantity }}</td>
+            <td>
+              <input type="number" min="1" [(ngModel)]="quantities[prod.id!]" class="qty-input">
+            </td>
+            <td>
+              <button (click)="addToCart(prod)" class="btn-cart" [disabled]="prod.stockQuantity === 0">
+                {{ prod.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart' }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Right Section: Shopping Cart & Checkout -->
+    <div class="card cart-section">
+      <h3>Your Cart ({{ cartItems.length }})</h3>
+      
+      <div *ngIf="cartItems.length === 0" class="empty-cart">
+        Your cart is empty. Add products from the catalog.
+      </div>
+
+      <ul *ngIf="cartItems.length > 0" class="cart-list">
+        <li *ngFor="let item of cartItems" class="cart-item">
+          <div>
+            <strong>{{ item.product?.productName }}</strong>
+            <span>Qty: {{ item.quantity }} × ₹{{ item.product?.price }}</span>
+          </div>
+          <div class="item-total">
+            ₹{{ (item.quantity * (item.product?.price || 0)) }}
+          </div>
+        </li>
+      </ul>
+
+      <button *ngIf="cartItems.length > 0" (click)="placeOrder()" class="btn-order">
+        Place Order & Generate Invoice
+      </button>
+    </div>
+  </div>
+
+  <!-- Row 2: Order & Invoice History Section -->
+  <div class="history-grid">
+    <!-- Orders Table -->
+    <div class="card">
+      <h3>My Order History</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ord of myOrders">
+            <td>#{{ ord.id }}</td>
+            <td>{{ ord.orderDate | date:'short' }}</td>
+            <td>₹{{ ord.totalAmount }}</td>
+            <td><strong>{{ ord.status }}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Invoices Table -->
+    <div class="card">
+      <h3>Generated Invoices</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Invoice No</th>
+            <th>Order ID</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let inv of myInvoices">
+            <td>{{ inv.invoiceNumber }}</td>
+            <td>#{{ inv.order?.id }}</td>
+            <td>₹{{ inv.totalAmount }}</td>
+            <td><span style="color: green; font-weight: bold;">{{ inv.status }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
